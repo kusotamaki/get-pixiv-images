@@ -1,4 +1,3 @@
-
 import time
 import sys
 import chromedriver_binary
@@ -7,20 +6,22 @@ from selenium.webdriver.common.by import By
 
 
 def main():
-    USER_NAME = sys.argv[1]
-    PASSWORD = sys.argv[2]
+    TARGET_URL = sys.argv[1] + '/artworks'
 
     driver = webdriver.Chrome()
     driver.get('https://www.pixiv.net/')
 
-    # ログイン情報入力
-    driver.find_element_by_class_name('signup-form__submit--login').click()
-    driver.find_element_by_xpath("//input[@autocomplete='username']").send_keys(USER_NAME)
-    driver.find_element_by_xpath("//input[@autocomplete='current-password']").send_keys(PASSWORD)
-    driver.find_element_by_id("LoginComponent").find_element(By.TAG_NAME, 'form').submit()
-    
-    time.sleep(5)
-    driver.quit()
+    # ユーザ検索
+    driver.get(TARGET_URL)
+
+    # ページング
+    # TODO ページに作品が含まれなくなったら終わる
+    page = 1
+    while page < 10:
+        driver.get(TARGET_URL + "?p=" + str(page))
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(1)
+        page += 1
 
 
 if __name__ == '__main__':
