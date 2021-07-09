@@ -1,10 +1,7 @@
-
 import time
 import sys
 import chromedriver_binary
 from selenium import webdriver
-
-
 
 class Main:
     def process(self):

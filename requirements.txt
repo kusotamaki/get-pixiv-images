@@ -1,0 +1,6 @@
+certifi==2021.5.30
+chromedriver-binary==92.0.4515.43.0
+chromedriver-binary-auto==0.1.1
+selenium==3.141.0
+urllib3==1.26.6
+wincertstore==0.2
