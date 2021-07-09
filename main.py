@@ -3,13 +3,13 @@ import sys
 import chromedriver_binary
 from selenium import webdriver
 
+
 class Main:
     def process(self):
         TARGET_URL = 'https://www.pixiv.net/users/' + sys.argv[1] + '/artworks'
         driver = webdriver.Chrome()
 
         # Search target user
-        driver.get(TARGET_URL)
 
         # TODO: login
         # driver.find_element_by_class_name('signup-form__submit--login').click()
