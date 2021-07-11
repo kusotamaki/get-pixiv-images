@@ -2,20 +2,31 @@ import time
 import sys
 import chromedriver_binary
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 
 class Main:
+
+    def __init__(self, target, user_name, password):
+        self.target = target
+        self.user_name = user_name
+        self.password = password
+
     def process(self):
-        TARGET_URL = 'https://www.pixiv.net/users/' + sys.argv[1] + '/artworks'
-        driver = webdriver.Chrome()
+        TARGET_URL = 'https://www.pixiv.net/users/' + self.target + '/artworks'
 
-        # Search target user
+        # set options
+        options = webdriver.ChromeOptions()
+        options.add_argument('user-data-dir=C:\\workspace\\get-pixiv-images\\Chrome')  # ToDo: fix to temp directory
+        driver = webdriver.Chrome(options=options)
 
-        # TODO: login
-        # driver.find_element_by_class_name('signup-form__submit--login').click()
-        # driver.find_element_by_xpath("//input[@autocomplete='username']").send_keys(USER_NAME)
-        # driver.find_element_by_xpath("//input[@autocomplete='current-password']").send_keys(PASSWORD)
-        # driver.find_element_by_id("LoginComponent").find_element(By.TAG_NAME, 'form').submit()
+        # login
+        driver.get('https://www.pixiv.net/')
+        driver.find_element_by_class_name('signup-form__submit--login').click()
+        driver.find_element_by_xpath("//input[@autocomplete='username']").send_keys(self.user_name)
+        driver.find_element_by_xpath("//input[@autocomplete='current-password']").send_keys(self.password)
+        driver.find_element_by_id("LoginComponent").find_element(By.TAG_NAME, 'form').submit()
+        time.sleep(5)
 
         # Crawling pixiv and save image urls.
         page, url_list = 1, []
@@ -41,5 +52,5 @@ class Main:
 
 
 if __name__ == '__main__':
-    main = Main()
+    main = Main(sys.argv[1], sys.argv[2], sys.argv[3])
     main.process()
